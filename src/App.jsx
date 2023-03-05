@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import FirstScreen from './components/FirstScreen'
-import LogIn from './components/LogIn'
+// import LogIn from './components/LogIn'
+import LoginRework from './components/LoginRework'
+import { ProtectedRoute1, ProtectedRoute2 } from './components/ProtectedRoutes'
 import SignUp from './components/SignUp'
 import Todo from './components/Todo'
 import { AuthContextProvider } from './context/ContextAuth'
@@ -13,10 +15,32 @@ function App() {
     <>
       <AuthContextProvider>
         <Routes>
-          <Route path='/' element={<FirstScreen />} />
-          <Route path='/sign' element={<SignUp />} />
-          <Route path='/login' element={<LogIn />} />
-          <Route path='/todo' element={<Todo />} />
+          <Route path='/' element={
+            // <ProtectedRoute2>
+            <FirstScreen />
+            // </ProtectedRoute2>
+          } />
+          <Route path='/sign' element={
+            // <ProtectedRoute2>
+            <SignUp />
+            // </ProtectedRoute2>
+          } />
+          <Route path='/login' element={
+            // <ProtectedRoute2>
+            <LoginRework />
+            // </ProtectedRoute2>
+          }
+          />
+          <Route path='/todo' element={
+            // <ProtectedRoute1>
+            <Todo />
+            //</ProtectedRoute1>
+          } />
+          <Route path='/log' element={
+            // <ProtectedRoute2>
+            <LoginRework />
+            // </ProtectedRoute2>
+          } />
         </Routes>
       </AuthContextProvider>
     </>

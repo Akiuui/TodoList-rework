@@ -27,7 +27,9 @@ export const AuthContextProvider = (props) => { //Wrap your Routes with AuthCont
     useEffect(() => {   //Gets users data everytime site loads
 
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+
             setUser(currentUser)
+
         })
     }, [])
 

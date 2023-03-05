@@ -35,10 +35,33 @@
     transform: rotate(135deg);
 }
 
+.rotate45 {
+    transform: rotate(0deg);
+}
+
 /* .asd {
     pointer-events: none;
 } */
+/*-------------------------------------LOADING CIRCLE ANIMATION-------------------------------------*/
 
+#loadingcircle {
+    border: 5px solid #ffffff;
+    border-top: 5px solid #1e44ef;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 /*-------------------------------------HAMBURGER ICON-------------------------------------*/
 .line {
