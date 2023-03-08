@@ -8,6 +8,16 @@ module.exports = {
     extend: {
       fontFamily: {
         body: ['Inter']
+      },
+      colors: {
+        "background-primary": "var(--background-primary)",
+        "background-secondary": "var(--background-secondary)",
+        "font-color": "var(--font-color)",
+        "color-primary": "var(--color-primary)",
+        "color-primary-hover": "var(--color-primary-hover)",
+
+        "color-secondary": "var(--color-secondary)",
+
       }
     },
   },

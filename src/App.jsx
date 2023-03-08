@@ -6,11 +6,13 @@ import LoginRework from './components/LoginRework'
 import { ProtectedRoute1, ProtectedRoute2 } from './components/ProtectedRoutes'
 import SignUp from './components/SignUp'
 import Todo from './components/Todo'
+import CompletedTodos from './components/CompletedTodos'
 import { AuthContextProvider } from './context/ContextAuth'
 import './index.css'
 
 function App() {
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"></link>
+
   return (
     <>
       <AuthContextProvider>
@@ -36,11 +38,19 @@ function App() {
             <Todo />
             //</ProtectedRoute1>
           } />
-          <Route path='/log' element={
+          <Route path='/todo' element={
+            // <ProtectedRoute1>
+            <Todo />
+            //</ProtectedRoute1>
+          } />
+          <Route path='/completed' element={
+            <CompletedTodos />
+          } />
+          {/* <Route path='/log' element={
             // <ProtectedRoute2>
             <LoginRework />
             // </ProtectedRoute2>
-          } />
+          } /> */}
         </Routes>
       </AuthContextProvider>
     </>

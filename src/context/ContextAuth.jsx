@@ -6,8 +6,19 @@ export const UserContext = createContext();
 
 export const AuthContextProvider = (props) => { //Wrap your Routes with AuthContextProvider
 
-    const [darkMode, setDarkMode] = useState(false);
     const [user, setUser] = useState({});
+    const [date, setDate] = useState();
+
+
+    const setDarkMode = () => {
+        document.querySelector('body').setAttribute('data-theme', 'dark')
+        localStorage.setItem('selectedTheme', 'dark')
+    }
+    const setLightMode = () => {
+        document.querySelector('body').setAttribute('data-theme', 'light')
+        localStorage.setItem('selectedTheme', 'light')
+
+    }
 
     function CreateUser(email, password) {
         console.log("User is Created")
@@ -34,7 +45,7 @@ export const AuthContextProvider = (props) => { //Wrap your Routes with AuthCont
     }, [])
 
     return (
-        <UserContext.Provider value={{ CreateUser, AddName, darkMode, setDarkMode, logout, signIn, user }}>
+        <UserContext.Provider value={{ CreateUser, AddName, setDarkMode, setLightMode, logout, signIn, user }}>
             {props.children}
         </UserContext.Provider>
     )

@@ -14,7 +14,27 @@
     --ham-height: calc(var(--ham-width) - (var(--ham-width)/3));
     --ham-line-height: calc(var(--ham-width)/10);
     --ham-color: #4B8CF7;
+
+    /*WHITE MODE*/
+    --background-primary: rgb(255, 255, 255);
+    --background-secondary: #dedede;
+    --font-color: rgb(0, 0, 0);
+    --color-primary: #5032f8;
+    --color-primary-hover: rgb(0, 0, 130);
+    --color-secondary: #2222ff;
+    --color-red:
 }
+
+[data-theme='dark'] {
+    --background-primary: #1E1E1E;
+    --background-secondary: #383838;
+    --font-color: rgb(254, 254, 254);
+    --color-primary: #BB86FC;
+    --color-primary-hover: #dbbffd;
+    --color-secondary: #2222ff;
+}
+
+body {}
 
 * {
     box-sizing: border-box;
@@ -46,7 +66,7 @@
 
 #loadingcircle {
     border: 5px solid #ffffff;
-    border-top: 5px solid #1e44ef;
+    border-top: 5px solid var(--color-primary);
     border-radius: 50%;
     width: 25px;
     height: 25px;
@@ -67,7 +87,7 @@
 .line {
     height: var(--ham-line-height);
     width: var(--ham-width);
-    background-color: var(--ham-color);
+    background-color: var(--color-primary);
     transition: 1s all;
     opacity: 1;
 }
@@ -86,7 +106,7 @@
 }
 
 #parent:hover .line {
-    background-color: #1166ed;
+    background-color: var(--color-primary-hover);
 }
 
 /*Theme icons*/
@@ -133,7 +153,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 100px;
-    border: 3.5px solid blue;
+    border: 3.5px solid var(--color-primary);
     width: 17px;
     height: 17px;
     background-color: rgba(255, 0, 0, 0);
@@ -145,14 +165,14 @@
     width: 6px;
     height: 6px;
     border-radius: 100px;
-    background-color: rgb(0, 0, 255);
+    background-color: var(--color-primary);
     transition: .5s;
     opacity: 0;
     z-index: -1;
 }
 
 #complete-btn:hover #round-fill-btn {
-    background-color: blue;
+    background-color: var(--color-primary);
     opacity: 1;
     transform: scale(2);
 }
@@ -170,7 +190,7 @@
     position: absolute;
     width: 18px;
     height: 3px;
-    background-color: black;
+    background-color: var(--font-color);
     z-index: 999;
     border-radius: 100px;
 }
@@ -179,7 +199,7 @@
     position: absolute;
     width: 18px;
     height: 3px;
-    background-color: black;
+    background-color: var(--font-color);
     z-index: 999;
     border-radius: 100px;
     transform: rotate(90deg);
