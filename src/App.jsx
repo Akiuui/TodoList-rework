@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import FirstScreen from './components/FirstScreen'
-// import LogIn from './components/LogIn'
+
 import LoginRework from './components/LoginRework'
 import { ProtectedRoute1, ProtectedRoute2 } from './components/ProtectedRoutes'
 import SignUp from './components/SignUp'
 import Todo from './components/Todo'
 import CompletedTodos from './components/CompletedTodos'
 import { AuthContextProvider } from './context/ContextAuth'
+
 import './index.css'
 
 function App() {
@@ -38,11 +39,7 @@ function App() {
             <Todo />
             //</ProtectedRoute1>
           } />
-          <Route path='/todo' element={
-            // <ProtectedRoute1>
-            <Todo />
-            //</ProtectedRoute1>
-          } />
+
           <Route path='/completed' element={
             <CompletedTodos />
           } />
@@ -51,6 +48,8 @@ function App() {
             <LoginRework />
             // </ProtectedRoute2>
           } /> */}
+
+
         </Routes>
       </AuthContextProvider>
     </>

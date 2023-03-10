@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { UserContext } from '../context/ContextAuth'
 
-function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOfDeleted, deletedList, setDeletedList, completedTodo, setCompletedTodo, dark }) {
+function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOfDeleted, deletedList, setDeletedList, completedTodo, setCompletedTodo }) {
 
 
     /*STATES*/
@@ -26,6 +26,8 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
     const dotsref = useRef([])
     const dotsDropDownRef = useRef([])
     /*CONTEXT*/;
+    const { dark, setDark } = useContext(UserContext);
+
 
 
     useEffect(() => {
@@ -98,7 +100,6 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
 
     function handleX(e, index) {
         if (isDelete === true) {
-            console.log("tacno je bulo")
             iks.current[index].style.transform = 'rotate(0deg)'
             inputref.current[index].style.transition = '1s all'
             inputref.current[index].style.color = 'gray'
@@ -110,8 +111,14 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
 
 
             iks1.current[index].style.transitionDelay = '1.5s'
-            iks1.current[index].style.width = '100px'
-            iks1.current[index].style.transform = 'translateX(100px)'
+            // iks1.current[index].style.transition = '1.5s'
+
+            // iks1.current[index].style.width = '100px'
+            // iks1.current[index].style.transform = 'translateX(100px)'
+            iks1.current[index].style.transformOrigin = 'right'
+
+            //     transform - origin: bottom left;
+            // transform: scaleX(10);
 
 
             parent.current[index].style.pointerEvents = 'none'

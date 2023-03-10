@@ -2,6 +2,10 @@ import React, { useContext, useRef, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/ContextAuth";
+import chatgptd from '../public/chatgpt.png'
+import chatgptl from '../public/chatgptlighte.png'
+
+
 
 function LoginRework() {
     const [password, setPassword] = useState('');
@@ -15,6 +19,9 @@ function LoginRework() {
     const { signIn } = useContext(UserContext)
 
     const navigate = useNavigate();
+
+    const { dark, setDark } = useContext(UserContext);
+
 
     async function SignIn(e) {
         e.preventDefault();
@@ -48,7 +55,7 @@ function LoginRework() {
         }
     }
 
-    return <div className="w-screen h-screen bg-gray-300 flex justify-center items-center bg-gradient-to-b from-blue-400 to-blue-600">
+    return <div className="w-screen h-screen bg-background-secondary flex justify-center items-center"> {/* bg-gradient-to-b from-blue-400 to-blue-600*/}
         <div><Toaster
             position="bottom-center"
             reverseOrder={true}
@@ -56,9 +63,9 @@ function LoginRework() {
 
         <div className="w-[70%] h-[80%] shadow-lg bg-background-primary">
 
-            <div className="w-[40%] h-full rounded-r-3xl float-left bg-blue-300">
-                Aleksa
+            <div className="w-[38%] h-full float-left bg-cover bg-no-repeat bg-center">
 
+                {dark ? <img className="rounded-r-3xl h-[100%] bg-no-repeat	bg-center" src={chatgptd} alt="" /> : <img className="rounded-r-3xl h-[100%] bg-no-repeat	bg-center" src={chatgptl} alt="" />}
 
             </div>
 
@@ -98,9 +105,11 @@ function LoginRework() {
                     <div id="loadingcircle" ref={loadingcircleref} className="hidden"></div>
                 </button>
 
-                <div className="flex py-4">
+                <div className="flex py-2">
                     <p className="text-center text-font-color">Don’t have an account? <Link to={'/sign'} className="underline text-color-primary">Sign up</Link></p>
                 </div>
+
+
             </form>
 
 

@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'logind': "url('/chatgpt.png')",
+      },
       fontFamily: {
         body: ['Inter']
       },

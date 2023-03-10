@@ -14,7 +14,6 @@ function Todo() {
     const [numberOfDeleted, setNumberofdeleted] = useState(0);
     const [deletedList, setDeletedList] = useState([])
     const [shouldBlur, setShouldBlur] = useState(true)
-    const [dark, setDark] = useState()
 
     //REFS
     const plus = useRef();
@@ -23,14 +22,13 @@ function Todo() {
     const trashone = useRef();
     const trashtwo = useRef();
     //CONTEXT
-    const { setDarkMode, setLightMode, logout, user } = useContext(UserContext);
+    const { setDarkMode, setLightMode, logout, user, dark, setDark, AddToDB, SetToDB } = useContext(UserContext);
     const navigate = useNavigate();
     //FUNCTIONS
 
     let firstCharOfUser
 
     user.displayName ? firstCharOfUser = user.displayName.toUpperCase().charAt(0) : null //Gets the first Char of the Name
-
 
 
     useEffect(() => { // THIS IS THE FIRST ELEMENT TO RENDER
@@ -46,7 +44,7 @@ function Todo() {
     }, [])
 
     function handleDarkMode() {
-        if (dark) {
+        if (!dark) {
             console.log("dark")
             setDarkMode();
             setDark(() => !dark)
@@ -60,6 +58,22 @@ function Todo() {
 
     }
 
+
+    async function saveDb() {
+        try {
+            // await SetToDB('')
+            await todo.forEach(e => {
+                console.log(e)
+                AddToDB(e)
+            })
+            console.log('added to base')
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+
+    }
 
     function handleHamburger() {    //Handles the clicking of hamburger icon
         const lines = document.querySelectorAll('.line')
@@ -165,6 +179,9 @@ function Todo() {
     return <div name="screen" className="w-screen h-screen bg-background-secondary flex justify-center items-center">
 
         <div><Toaster /></div>
+
+        <button className="absolute right-10 bottom-10 border-2 bg-white" onClick={saveDb}>Save to db</button>
+
         <div name="top-banner" className="w-screen h-[2.8125rem] py-1 bg-background-primary absolute top-0
          flex justify-between" >
             <div className="h-[35px] w-[35px] ml-4 flex justify-center items-center">
@@ -192,7 +209,7 @@ function Todo() {
 
                 {/*Dropdown window for account*/}
 
-                <div tabIndex="0" ref={userDropDown} onBlur={shouldBlur ? () => { userDropDown.current.classList.toggle('invisible'); setShouldBlur(false) } : null} className="absolute border-2 border-background-secondary right-[25px] top-[50px] bg-background-primary px-2 py-2 shadow-md z-50 invisible">
+                <div tabIndex="0" ref={userDropDown} onBlur={shouldBlur ? () => { userDropDown.current.classList.toggle('invisible'); setShouldBlur(false) } : null} className="absolute border-2 border-background-secondary right-[25px] top-[50px] bg-background-primary px-2 py-2 shadow-md z-99990 invisible">
 
                     <div className="px-2 py-2 mb-2 rounded-lg border-2 border-background-secondary">  {/*Name and Email*/}
                         <div className="text-sm text-font-color font-medium">Name: {user && user.displayName}</div>
@@ -240,9 +257,11 @@ function Todo() {
             <div name='scroll' className="h-[85%] border-y-2 border-background-secondary overflow-x-hidden overflow-scroll">
 
                 {/*Print todo-function*/}
-                <PrintTodo isDelete={isDelete} setIsDelete={setIsDelete} todo={todo} setTodo={setTodo} plus={plus} numberOfDeleted={numberOfDeleted} setNumberofdeleted={setNumberofdeleted} deletedList={deletedList} setDeletedList={setDeletedList} completedTodo={completedTodo} setCompletedTodo={setCompletedTodo} dark={dark} />
+                <PrintTodo isDelete={isDelete} setIsDelete={setIsDelete} todo={todo} setTodo={setTodo}
+                    plus={plus} numberOfDeleted={numberOfDeleted} setNumberofdeleted={setNumberofdeleted}
+                    deletedList={deletedList} setDeletedList={setDeletedList} completedTodo={completedTodo}
+                    setCompletedTodo={setCompletedTodo} dark={dark} />
                 {/*Print todo-function*/}
-
             </div>
 
         </div>

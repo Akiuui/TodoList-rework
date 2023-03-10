@@ -31,7 +31,7 @@
     --font-color: rgb(254, 254, 254);
     --color-primary: #BB86FC;
     --color-primary-hover: #dbbffd;
-    --color-secondary: #2222ff;
+    --color-secondary: #9f5cf0;
 }
 
 body {}
@@ -40,6 +40,11 @@ body {}
     box-sizing: border-box;
     text-decoration: none;
     list-style: none;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: none;
 }
 
 .invisible {
