@@ -5,6 +5,8 @@ import { UserContext } from '../context/ContextAuth'
 import { useNavigate } from "react-router-dom"
 import CompletedTodos from '../components/CompletedTodos'
 import { Toaster } from "react-hot-toast";
+import bgl from '../public/bgl.svg';
+import PrintSections from "./PrintSections";
 
 function Todo() {
     //STATE
@@ -14,6 +16,17 @@ function Todo() {
     const [numberOfDeleted, setNumberofdeleted] = useState(0);
     const [deletedList, setDeletedList] = useState([])
     const [shouldBlur, setShouldBlur] = useState(true)
+    const [showH1, setShowH1] = useState(true);
+    const [loading, setLoading] = useState(false);
+
+
+    const todayList = { id: '1111111111', name: 'Today list' }
+
+    //asdasd
+    const [sectionInput, setSectionInput] = useState('');
+    const [allSections, setAllSections] = useState([todayList]);
+    const [currentSection, setCurrentSection] = useState(todayList);
+    const [allTodos, setAllTodos] = useState([{ sectionID: "1111111111", setionName: "Today list", todos: todo }]);
 
     //REFS
     const plus = useRef();
@@ -21,6 +34,8 @@ function Todo() {
     const numberOfDeletedRef = useRef();
     const trashone = useRef();
     const trashtwo = useRef();
+    const sectionmenuref = useRef();
+    const inputsectionref = useRef();
     //CONTEXT
     const { setDarkMode, setLightMode, logout, user, dark, setDark, AddToDB, SetToDB } = useContext(UserContext);
     const navigate = useNavigate();
@@ -45,35 +60,63 @@ function Todo() {
 
     function handleDarkMode() {
         if (!dark) {
-            console.log("dark")
             setDarkMode();
             setDark(() => !dark)
 
         } else {
-            console.log("light")
             setLightMode();
             setDark(() => !dark)
         }
+    }
 
+
+    function newSection() {
+
+        setTodo([])
+
+        setShowH1(false)
+        setTimeout(() => inputsectionref.current.focus(), 100)
 
     }
+    function newSectionBlur() {
+
+        if (sectionInput === "") {
+            setShowH1(true);
+            return;
+
+        }
+
+        const section = { id: crypto.randomUUID(), name: sectionInput }
+        // const a = sectionInput.charAt(0).toUpperCase();
+        setShowH1(true)
+
+
+        setAllSections([...allSections, section])
+
+        setAllTodos([...allTodos, { sectionID: section.id, setionName: section.name, todos: [] }])
+
+        setCurrentSection(section)
+
+        setSectionInput("");
+    }
+
 
 
     async function saveDb() {
-        try {
-            // await SetToDB('')
-            await todo.forEach(e => {
-                console.log(e)
-                AddToDB(e)
-            })
-            console.log('added to base')
-        }
-        catch (e) {
-            console.log(e)
-        }
+        // try {
+        //     // await SetToDB('')
+        //     await todo.forEach(e => {
+        //         AddToDB(e)
+        //     })
+        //     console.log('added to base')
+        // }
+        // catch (e) {
+        //     // console.log(e)
 
+        // }
 
     }
+
 
     function handleHamburger() {    //Handles the clicking of hamburger icon
         const lines = document.querySelectorAll('.line')
@@ -81,6 +124,7 @@ function Todo() {
         lines[0].classList.toggle('rotate-down')
         lines[2].classList.toggle('rotate-up')
         //Add your functions
+        sectionmenuref.current.classList.toggle('translateX')
     }
     function handleTrash() {    //Handles clicking on the trash svg
         const trashsvg = document.querySelector('#trashsvg'); /*Gets trash svg*/
@@ -144,6 +188,8 @@ function Todo() {
         //Add your functions
     }
     function Add() {
+        setLoading(false)
+
         if (isDelete === true) {
             const trashsvg = document.querySelector('#trashsvg'); /*Gets trash svg*/
             const completedbtn = document.querySelectorAll('#round-btn'); /*Gets the blue round div*/
@@ -172,18 +218,20 @@ function Todo() {
 
         setTodo([...todo, { id: crypto.randomUUID(), value: "", editable: false, completed: false }]);
 
+
+
     }
 
 
 
-    return <div name="screen" className="w-screen h-screen bg-background-secondary flex justify-center items-center">
-
+    return <div name="screen" className="w-screen h-screen bg-background-secondary  flex justify-center items-center">
         <div><Toaster /></div>
 
         <button className="absolute right-10 bottom-10 border-2 bg-white" onClick={saveDb}>Save to db</button>
 
+
         <div name="top-banner" className="w-screen h-[2.8125rem] py-1 bg-background-primary absolute top-0
-         flex justify-between" >
+         flex justify-between z-[99999] drop-shadow-md" >
             <div className="h-[35px] w-[35px] ml-4 flex justify-center items-center">
                 <div onClick={handleHamburger} id="parent">
                     <div className="line"></div>
@@ -192,7 +240,7 @@ function Todo() {
                 </div>
             </div>
 
-            <div className="flex">
+            <div className="flex ">
 
                 <div onClick={Add} ref={plus} tabIndex="0" className="cursor-pointer rounded-md hover:bg-background-secondary outline-gray-400">   {/*Plus icon*/}
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none"
@@ -236,10 +284,30 @@ function Todo() {
 
         </div>
 
-        <div className="bg-background-primary w-[60%] h-[70%] px-[2.1875rem] py-[2.1875rem] drop-shadow-2xl" name="body">
+        <div ref={sectionmenuref} className="w-[60%] sm:w-[15%] h-screen absolute left-0 bg-background-primary translateX ease-in-out duration-[400ms] transition-[transform] z-[9999] flex flex-col">
+
+            <div className="h-[2.8125rem]"></div>
+
+            <button onClick={newSection} className="border-2 py-2 px-4 my-4 mx-4 rounded-lg border-background-secondary text-font-color">Add new section</button>
+
+
+            <PrintSections allSections={allSections} setTodo={setTodo} allTodos={allTodos} currentSection={currentSection}
+                setCurrentSection={setCurrentSection} loading={loading} setLoading={setLoading} />
+
+
+        </div>
+
+
+        <div className="bg-background-primary w-full sm:w-[60%] mt-[4rem] h-full sm:h-[70%] px-[1.5rem] sm:px-[2.1875rem] py-[2.1875rem] drop-shadow-2xl " name="body">
 
             <div className="flex justify-between mb-4 mx-4">
-                <h1 className="text-4xl text-font-color">Todo List</h1>
+
+                {showH1 ?
+                    <h1 className="text-4xl text-font-color">{currentSection.name}</h1>
+                    :
+                    <input type="text" onBlur={newSectionBlur} onChange={(e) => setSectionInput(e.target.value)} ref={inputsectionref} className="text-4xl text-font-color px-2 focus:outline-none focus:border-none bg-transparent" />
+
+                }
                 <div onClick={handleTrash} className="w-[45px] h-[45px] rounded-md flex justify-center  
                  items-center hover:bg-background-secondary ">   {/*TRASH ICON*/}
                     <div className="relative">
@@ -260,7 +328,8 @@ function Todo() {
                 <PrintTodo isDelete={isDelete} setIsDelete={setIsDelete} todo={todo} setTodo={setTodo}
                     plus={plus} numberOfDeleted={numberOfDeleted} setNumberofdeleted={setNumberofdeleted}
                     deletedList={deletedList} setDeletedList={setDeletedList} completedTodo={completedTodo}
-                    setCompletedTodo={setCompletedTodo} dark={dark} />
+                    setCompletedTodo={setCompletedTodo} dark={dark} setAllTodos={setAllTodos} currentSection={currentSection}
+                    allTodos={allTodos} loading={loading} setLoading={setLoading} />
                 {/*Print todo-function*/}
             </div>
 

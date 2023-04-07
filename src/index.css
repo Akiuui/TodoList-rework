@@ -34,7 +34,10 @@
     --color-secondary: #9f5cf0;
 }
 
-body {}
+body {
+    /* overflow-y: hidden; */
+
+}
 
 * {
     box-sizing: border-box;
@@ -62,6 +65,10 @@ body {}
 
 .rotate45 {
     transform: rotate(0deg);
+}
+
+.translateX {
+    transform: translateX(-1000px);
 }
 
 /* .asd {

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { UserContext } from '../context/ContextAuth'
 
-function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOfDeleted, deletedList, setDeletedList, completedTodo, setCompletedTodo }) {
+function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOfDeleted, deletedList, setDeletedList, completedTodo, setCompletedTodo, allTodos, setAllTodos, currentSection, setLoading, loading }) {
 
 
     /*STATES*/
@@ -13,9 +13,12 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
     const [showDotsDropDown, setShowDotsDropDown] = useState(false);
     const [shouldShowNotif, setShouldShowNotif] = useState(false)
 
+
     const [currentElement, setCurrentElement] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
     const [dotsAreClicked, setDotsAreClicked] = useState(false)
+    const [indexx, setIndexx] = useState(0)
+
     /*REFS*/
     const input = useRef('input');
     const iks = useRef([]);
@@ -44,10 +47,13 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
 
     }, [showDotsDropDown])
 
-    useEffect(() => {
-        console.log("Rerenderovalo se")
 
-    }, [todo]);
+    useEffect(() => {
+
+        setIndexx(
+            allTodos.findIndex((element) => element.sectionID === currentSection.id)
+        )
+    }, [allTodos])
 
     function leaveDots() {
         if (!isDelete)
@@ -134,10 +140,12 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
     }
 
     function handlePrint(object, index) {
+        setLoading(false)
         let a = todo.filter((e => e.id != object.id)) //Removes the placeholder todo
         setTodo([...a, { id: object.id, value: txtInput, editable: true, completed: false }]) //Prints the todo with value from placeholder todo
+        const x = [...a, { id: object.id, value: txtInput, editable: true, completed: false }];
         inputref.current[index].style.pointerEvents = "none"
-        console.log("Ovo je txt input: ", txtInput)
+        // console.log("Ovo je txt input: ", txtInput)
         plus.current.focus();
 
 
@@ -161,6 +169,14 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
         }
 
         setTxtInput('');
+
+
+        const q = allTodos.filter(e => e.sectionID != currentSection.id)
+        // console.log(q)
+
+        setAllTodos([...q, { sectionID: currentSection.id, setionName: currentSection.name, todos: x }]
+
+        )
     }
     // function downEnter(event, object) {
     //     if (event.key !== 'Enter') {
@@ -172,7 +188,6 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
     function inputBlur(object, index) {
         setShouldBlur(true)
         if (shouldBlur) {
-            console.log("loguje se blur")
             handlePrint(object, index)
         } else return null
     }
@@ -205,9 +220,9 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
                             </div>
 
                             <input ref={(el) => (inputref.current[index] = el)} /*onKeyDown={(event) => downEnter(event, e)}*/
-                                onBlur={() => { inputBlur(e, index) }} onChange={(e) => setTxtInput(e.target.value)} type="text"
+                                onBlur={loading ? null : () => { inputBlur(e, index) }} onChange={(e) => setTxtInput(e.target.value)} type="text"
                                 readOnly={e.editable} className="w-full text-font-color focus:outline-none text-2xl bg-transparent"
-                                placeholder="enter todo..." autoFocus
+                                placeholder="enter todo..." value={loading ? e.value : null} autoFocus
                             />
 
 
@@ -245,7 +260,9 @@ function PrintTodo({ isDelete, todo, setTodo, plus, setNumberofdeleted, numberOf
 
 
         </>
+
     )
+    { setLoading(false) }
 }
 
 export default PrintTodo;
